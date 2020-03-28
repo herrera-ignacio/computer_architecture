@@ -1,5 +1,13 @@
 # Data Representation
 
+* Glossary
+* Positional Number Systems
+    * Unsigned whole numbers
+    * Signed whole numbers 
+        * Signed magnitude
+        * Complement system
+        * Rule for detecting overflow
+
 ## Glossary
 
 #### bit (1 or 0)
@@ -87,7 +95,7 @@ Common representations:
 2. One's complement
 3. Two's complement
 
-#### Signed Magnitude
+### Signed Magnitude
 
 Has a __sign as its left-most__ bit (high-order or most significant bit),
 while the remaining bits represent the magnitude (absolute value) of the
@@ -111,7 +119,7 @@ by looking at its high-order bit.
 We know the numbers 501-999 represent the radix complements of the numbers 001-500
 and are being used to represent negative magnitudes.
 
-#### One's Complement
+### One's Complement
 
 Given a number `N` in base `r` having `d` digits, the diminished radix complement
 of `N` is defined to be `(r^d - 1) - N`.
@@ -174,3 +182,58 @@ The primary disadvantage of one's complement is that we still have two
 representations for zero (`0000 0000` and `1111 1111`). For this and other
 reasons, computer engineers long ago stopped using one's complement in favor
 of the more efficient two's complement representation for binary numbers.
+
+### Two's Complement
+
+Given a number `N` in base `r` having `d` digits, the radix complement of N is
+defined to be `r^d - N` for N != 0 and 0 for N = 0. The radix complement is often
+more intuitive than the diminished radix complement.
+
+The two's complement of the 4-bit number `0011` is `2^4 - 0011`, which is the same
+as `10000 - 0011 = 1101`.
+
+Upon closer examination, you will discover that two's complement is nothing more
+than one's complement increased by 1. Then you can flip bits and add 1.
+
+This simplifies addition and subtraction as well. Since the subtrahend (number
+we complement and add) is incremented at the outset, however, there is
+no end carry-around to worry about. We simply discard carries involving the
+high-order- bits.
+
+Remember, only negative numbers need to be converted to two's complement notation.
+
+* `23 = 0001 0111 = 0001 0111` 
+* `-23 = 0001 0111 = 1110 1000 + 1 = 1110 1001`
+
+Finding the sum of two numbers:
+
+```
+  0001 0111 (23)
++ 1111 0111 (-9)
+= 0000 1110 (14)
+```
+
+Notice that the discarded carry in previous example did not cause an erroneous result.
+
+An __overflow__ occurs if two positive numbers are added and the result is negative,
+or if two negative numbers are added and the result is positive. It is not possible to have
+overflow when using two's complement notation if a positive and a negative number
+are being added together.
+
+
+#### Rule for detecting an overflow condition
+
+Simple computer circuits can easily detect an overflow condition using a rule that is
+easy to remember. In previous example you'll notice that the __carry going into the sign bit
+is the same as the carry going out of the sign bit__ (a 1 is carried out and discarded). When
+__these carries are equal, no overflow occurs__. When they differ, an overflow indicator
+is set in the arithmetic logic unit, indicating the result is incorrect.
+
+Example:
+
+```
+0 <- 1         (carries)
+     0111 1110 (126)
+   + 0000 1000 (8)
+     1000 0110 (-122?) OVERFLOW
+```

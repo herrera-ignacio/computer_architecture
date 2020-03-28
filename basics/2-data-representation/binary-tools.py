@@ -36,6 +36,7 @@ def get_one_complement(n: int, d: int):
 		return binary
 	return invert_bits(binary)
 
+
 if __name__ == "__main__":
 	print(get_one_complement(10, 5))
 	print(get_one_complement(-15, 5))
