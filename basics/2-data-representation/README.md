@@ -48,12 +48,14 @@ The nibble containing the least-valued binary digit is called low-order nibble.
 | 14      	| 1110         	| E           	|
 | 15      	| 1111         	| F           	|
 
-#### Converting Unsigned Whole Numbers
+## Unsigned Whole Numbers
 
 A binary number with __N bits__ can represent unsigned integers
 from 0 to (2^N)-1.
 
 For example, 4 bits can represent the decimal values 0 through 15.
+
+#### Conversion methods
 
 * repeated subtraction
 * division-reminder method
@@ -69,3 +71,106 @@ This is an example of a condition known as __overflow__, which occurs
 in unsigned binary representation when the result of an arithmetic
 operation is outside the range of allowable precision
 for the given number of bits.
+
+## Signed Integer Representation
+
+Many programming languages automatically allocate a storage area
+that includes a sin as the first bit of the storage location.
+
+By convention a "1" in the high-order bit indicates a negative number.
+
+The storage location can be as small as a byte or as several words.
+
+Common representations:
+
+1. Signed magnitude
+2. One's complement
+3. Two's complement
+
+#### Signed Magnitude
+
+Has a __sign as its left-most__ bit (high-order or most significant bit),
+while the remaining bits represent the magnitude (absolute value) of the
+numeric value.
+
+For example, in an 8-bit word, `-1` would be represented as `10000001`.
+
+In 8-bit words, 7 bits can be used for the actual representation of the magnitude,
+this means that largest magnitude an 8-bit word can represent is 2^7 - 1 (127).
+
+### Complement Systems
+
+Let's say we wanted to find `167 - 52`. Taking the difference of `999 - 52 = 947`.
+In nine's complement arithmetic we have `167 - 52 = 167 + 947 = 114`. The "carry"
+from the hundreds column is added back to the units place, giving us a correct
+`167 - 52 = 115`. This method was commonly called "casting out 9s". The advantage
+that complement systems give us over signed magnitude is that there is no need to
+process sign bits separately, but we can still easily check the sign of a number
+by looking at its high-order bit.
+
+We know the numbers 501-999 represent the radix complements of the numbers 001-500
+and are being used to represent negative magnitudes.
+
+#### One's Complement
+
+Given a number `N` in base `r` having `d` digits, the diminished radix complement
+of `N` is defined to be `(r^d - 1) - N`.
+
+For decimal numbers, `r = 10`, and the diminished radix is 9.
+
+For example, the nine's complement of 2468 is `9999 - 2468 = 7531`. As
+`r^d - 1 = 9999`.
+
+For an equivalent operation in binary, we subtract from one less that the base (2), which is 1.
+
+For example, the one's complement of `0101` is `1111 - 0101 = 1010`. This is because `r=2`, `d=4`
+and `r^d = 2^4 = 10000 (16)`. And then `r^d - 1 = 1111`.
+
+We could do this operations but a few experiments will convince you that forming
+the one's complement of a binary number amounts to nothing more than
+__switching all of the 1s with 0s and vice versa__. This sort of bit-flipping is very
+simple to implement in computer hardware.
+
+We are most interested in using complement notation to represent negative numbers. We know
+that performing a subtraction, such as `10 - 7`, can be also though of as "adding the opposite"
+as in `10 + (-7)`.
+
+Complement notation allows us to simplify subtraction by turning it into addition, but it also
+give us a method to represent negative numbers, without the need to use a special bit to
+represent the sign. We need to remember that if a number is negative, we should convert it
+to its complement. The result should have a 1 in the leftmost bit position to indicate the
+number is negative. If the number is positive, we don't have to convert it to its complement.
+All positive numbers should have a zero in the leftmost bit position.
+
+For example `23 = +(00010111) = 00010111`, and `-9 = -(00001001) = 11110110`.
+
+Now if we wish to subtract 9 from 23, we can carry out a one's complement subtraction. First
+by expressing the subtrahend (9) in one's complement, then add it to the minuend (23). We are effectively
+now doing `-9 + 23`. The high-order bit will have a 1 or a 0 carry, which is added to the low-order bit of the sum. This
+is called __end carry-around__ and results from using the diminished radix complement.
+
+```
+23 + (-9):
+  00010111 (23)
++ 11110110 (-9)
+= 00001101
++ 00000001 (end carry-around)
+= 00001110 (14)
+```
+
+```
+9 + (-23)
+  00001001 (9)
++ 11101000 (-23)
+= 11110001 (-14)
+```
+
+How do we know that `11110001` is actually -14? We simply need to
+take the one's complement of this binary number (remembering it must be
+negative because the left-most bit is negative). The one's complement is
+`00001110` which is 14.
+
+The primary disadvantage of one's complement is that we still have two
+representations for zero (`0000 0000` and `1111 1111`). For this and other
+reasons, computer engineers long ago stopped using one's complement in favor
+of the more efficient two's complement representation for binary numbers.
