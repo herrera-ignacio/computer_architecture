@@ -7,6 +7,10 @@
         * Signed magnitude
         * Complement system
         * Rule for detecting overflow
+* Floating point representation
+    * Simple model (sign bit, mantissa and exponent)
+    * Biased exponent
+    * Normalization
 
 ## Glossary
 
@@ -237,3 +241,66 @@ Example:
    + 0000 1000 (8)
      1000 0110 (-122?) OVERFLOW
 ```
+
+---
+
+## Floating-Point Representation
+
+In scientific notation, numbers are expressed in two parts:
+
+* Mantissa: the fractional part
+* Exponential part: indicated the power of ten to which the mantissa should be raised
+
+So for example to express 32,767 in scientific notation, we could write: `3.2767 x 10^4`.
+
+#### Simple model
+
+In digital computers, floating-point numbers consist of three parts:
+
+* sign bit
+* exponent part (on a power of 2)
+* fractional part (called _significand_/_mantissa_)
+
+The number of bits used for the exponent and significand depends on whether we would
+like to optimize for range (more bits in the exponent) or precision (more bits on the significand).
+
+For example, we'll use a 14-bit model with a 5-bit exponent, an 8-bit significand, and a sign bit. Let's
+say we wish to store the decimal number 17 in this model. We know that `17 = 0.17 x 10^2`.
+Analogously, in binary, `17 = 10001 = .10001 x 2^5 (binary)`. If we use this last form, our fractional part
+will be `1000 1000` and our exponent will be `00101`, resulting in: `0 00101 10001000`.
+
+Using this form, we can store numbers of much greater magnitude than we could using a fixed-point representation
+of 14 bits.
+
+#### Biased exponent
+
+One obvious problem with this model is that we haven't provided for negative exponents. We could fix
+the problem by adding a sign bit to the exponent, bit it turns out that it is more efficient to use
+a biased exponent.
+
+The idea behind using a bias value is to convert every integer in the range into a non-negative
+integer, which is then stored as a binary numeral. The integers in the desired range of exponents
+are first adjusted by adding this fixed bias value to each exponent. The bias value is a number near
+the middle of the range of possible values that we selected to represent zero.
+
+As an example for this case, we could select 16 because it is midway between 0 and 31 (2^5). Any number larger
+than 16 in the exponent field will represent a positive value, and values less than 16 will indicate
+negative values. This is called an __excess-17__ representation because we need to subtract 16 to get the
+true value of the exponent.
+
+#### Normalization
+
+Still one rather large problem with this model: we do not have a unique representation for each number.
+Synonymous forms are not well-suited for digital computers.
+
+A convention has been established where the leftmost bit of the significand/mantissa will always be a 1. This is
+called _normalization_.
+
+This convention has the additional advantage in that the 1 can be implied, effectively giving an extra bit
+of precision in the significand.
+
+For example, expressing 0.03125 in normalized floating-point form with excess-16 bias:
+
+`0.03125 = 0.00001 = 0.1 x 2^-4`. Applying the bias the exponent field is `16 - 4 = 12`.
+
+Then we have as a result: `0 01100 10000000`.
