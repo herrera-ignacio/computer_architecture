@@ -2,6 +2,7 @@
 
 * Glossary
 * [Number Representation](./numbers.md)
+* [Character Representation](./characters.md)
 
 ## Glossary
 
