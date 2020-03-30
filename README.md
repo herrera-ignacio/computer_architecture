@@ -8,9 +8,9 @@
 
 ### Basis
 
-#### Von Neumann computer model
+#### [Von Neumann computer model](./basics/1-von-neuman/README.md)
 
-#### Data representation
+#### [Data representation](./basics/2-data-representation/README.md)
 
 * Numeric representation techniques
 	* One's complement
@@ -21,10 +21,12 @@
 	* EBCDIC
 	* ASCII
 	* Unicode
+* Data encoding (transmission and storage)
+* Error detection/correction
 
-#### Digital Logic
+#### [Digital Logic](./basics/3-digital-logic/README.md)
 
-* Combinational logic
+* Combinatorial logic
 * Sequential logic
 * MSI (medium scale integration) circuits (such as decoders)
 * Complex circuits (such as buses and memory)
