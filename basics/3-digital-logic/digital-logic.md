@@ -95,3 +95,28 @@ has 3 inputs and 8 inputs, is called a _3-to-8 decoder_.
 ![decoder](./circuits/decoder.gif)
 
 ### Multiplexer
+
+Selects binary information from one or many input lines and directs it to a single output line.
+
+Selection of a particular input line is controlled by a set of selection variables or control lines. At any
+given time, only one input is routed through the output line. All other inputs are "cut off".
+
+Time-sharing computers multiplex the input from user terminals. Modem pools multiplex the modem lines
+entering the computer.
+
+![multiplexer gates](./circuits/multiplexer1.png)
+
+![multiplexer truth table](./circuits/multiplexer2.png)
+
+### Parity Generator
+
+Circuit that creates the necessary parity bit to add to a word.
+
+### Parity checker
+
+Checks to make sure proper parity (odd or even) is present in the word, detecting an
+error if the parity bit is incorrect.
+
+## 2-bit ALU
+
+![2 bit alu](./circuits/2bitalu.jpg)
