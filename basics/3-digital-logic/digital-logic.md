@@ -12,7 +12,14 @@
     * Clocks
     * Flip Flops (Latch)
         * SR (set/reset)
-
+        * JK (Jack Kelby)
+        * D
+    * Examples
+        * Registers
+        * Memories
+        * Counters
+* Designing Circuits
+        
 ## Logic Gates
 
 The actual physical components or digital circuits, are constructed from
@@ -190,3 +197,50 @@ We can add some conditioning logic to the SR flip-flop to ensure that the illega
 Stores one bit of information.
 
 ![d flip flop](./circuits/d-flip-flop.png)
+
+### Examples of Sequential Circuits
+
+Latches and flip-flops are used to implement more complex sequential circuits:
+* Registers
+* Counters
+* Memories
+* Shift registers
+* Anything that requires storage
+
+#### 4 bit register
+
+![4-bit register](./circuits/4-bit-register.png)
+
+#### 4-bit Synchronous Counter
+
+![4-bit synchronous counter](./circuits/4-bit-counter.png)
+
+#### 4x3 memory
+
+![4x3 memory](./circuits/4x3memory.png)
+
+---
+
+## Designing Circuits
+
+Digital logic design requires someone not only familiar with digital logic, but also well versed in _digital analysis_
+(analyzing the relationship between inputs and outputs), _digital synthesis_ (starting with a truth table and
+determining the logic diagram to implement the given logic function), and the use of CAD (computer-aided design) software.
+
+There are many challenges to face:
+* Finding efficient Boolean functions
+* Using the smallest number of gates
+* Using an inexpensive combination of gates
+* Organizing the gates of a circuit board to use the smallest surface
+* Minimal power requirements
+* Use standard set of modules for implementations
+
+Not to mention problems for which we still don't have any tools to help us like:
+* Signal propagation
+* Fan out
+* Synchronization issues
+* External interfacing
+
+Given the building blocks so far, a circuit designer can implement any given algorithm in hardware, recalling the
+__Principle of Equivalence of Hardware and Software__. When you write a program, you are specifying a sequence of
+Boolean expressions.
