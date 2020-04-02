@@ -174,3 +174,19 @@ The most basic memory unit.
 ![sr flip flop](./circuits/sr-flip-flop.gif)
 
 ![clocked sr flip flop](./circuits/sr-flip-flop2.png)
+
+There is one oddity with this particular flip-flop. If both S and R are set to 1 at the same time,
+it forces both Q and !Q to 1, which should not happen. This results in an unstable circuit, and therefore
+this combination of inputs is not allowed in an SR flip-flop.
+
+#### JK flip-flop (Jack Kilby)
+
+We can add some conditioning logic to the SR flip-flop to ensure that the illegal state never arises.
+
+![jk flip flop](./circuits/jk-flip-flop.gif)
+
+#### D Flip-Flop
+
+Stores one bit of information.
+
+![d flip flop](./circuits/d-flip-flop.png)
