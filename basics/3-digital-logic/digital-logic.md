@@ -4,6 +4,14 @@
 * Digital Components
     * Integrated Circuits
 * Combinational Circuits
+    * Adders
+    * Decoder
+    * Multiplexer
+    * Parity Checker and Generator
+* Sequential Circuits
+    * Clocks
+    * Flip Flops (Latch)
+        * SR (set/reset)
 
 ## Logic Gates
 
@@ -120,3 +128,49 @@ error if the parity bit is incorrect.
 ## 2-bit ALU
 
 ![2 bit alu](./circuits/2bitalu.jpg)
+
+--
+
+## Sequential Circuits
+
+The major weakness of combinational circuits is that there is no concept of storage.
+
+A sequential circuit defines the output as a __function of both is current inputs
+and its previous inputs__. To remember previous inputs, sequential circuits must have some
+sort of storage elements (_flip-flop_).
+
+### Clocks
+
+A clock is a circuit that emits a __series of pulses with a precise pulse width and precise interval__
+between consecutive pulses. This interval is called the _clock cycle time_, generally measured in
+megahertz (MHz), or million of pulses per second.
+
+The fact that a sequential circuit uses past inputs to determine present outputs indicates
+we must have _event ordering_. Some sequential circuits are _asynchronous_, which means they
+become active the moment any input value changes. _Synchronous_ sequential circuits use
+clocks to order events.
+
+A clock is used by a sequential circuit to decide when to update the state of the circuit. Most sequential
+circuits are _edge-triggered_ (as opposed to being _level-triggered_) which means they are allowed to
+change their states on either the rising or falling edge of the clock signal.
+
+![clock signal](circuits/clock-signal.gif)
+
+### Flip Flops (latch)
+
+A level-triggered circuit is allowed to change state whenever the clock signal is either high or low. Technically
+a latch is level-triggered, where a flip-flop is edge-triggered.
+
+> In order to "remember" a past state, sequential circuits rely on a concept called __feedback__. The input of a
+circuit is fed back as an input to the same circuit.
+
+We can describe any flip-flop by using a _characteristic table_, which indicates what the next state
+should be based on the inputs and the current state.
+
+#### SR Flip Flop (Set/Reset)
+
+The most basic memory unit.
+
+![sr flip flop](./circuits/sr-flip-flop.gif)
+
+![clocked sr flip flop](./circuits/sr-flip-flop2.png)
